@@ -4,7 +4,7 @@
     "type": "think-framework",
     "keywords": ["framework","thinkphp","ORM"],
     "homepage": "http://thinkphp.cn/",
-    "license": "Apache2",
+    "license": "MIT",
     "authors": [
         {
             "name": "liu21st",
