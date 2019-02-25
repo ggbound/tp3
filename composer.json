@@ -1,5 +1,5 @@
 {
-    "name": "pu/thinkphp",
+    "name": "ggbound/tp3",
     "description": "the ThinkPHP Framework",
     "type": "think-framework",
     "keywords": ["framework","thinkphp","ORM"],
