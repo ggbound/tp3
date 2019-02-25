@@ -1,0 +1,18 @@
+{
+    "name": "pu/thinkphp",
+    "description": "the ThinkPHP Framework",
+    "type": "think-framework",
+    "keywords": ["framework","thinkphp","ORM"],
+    "homepage": "http://thinkphp.cn/",
+    "license": "Apache2",
+    "authors": [
+        {
+            "name": "liu21st",
+            "email": "liu21st@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "pu/think-installer": "^2.0"
+    }
+}
