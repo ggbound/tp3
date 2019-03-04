@@ -21,6 +21,7 @@ class Dispatcher
      * URL映射到控制器
      * @access public
      * @return void
+     * @throws Exception
      */
     public static function dispatch()
     {
@@ -76,7 +77,7 @@ class Dispatcher
                 $array = explode('/', $rule);
                 // 模块绑定
                 define('BIND_MODULE', array_shift($array));
-                // 控制器绑定         
+                // 控制器绑定
                 if (!empty($array)) {
                     $controller = array_shift($array);
                     if ($controller) {
@@ -276,13 +277,9 @@ class Dispatcher
                 // PATH_INFO检测标签位
                 Hook::listen('path_info');
                 if (C('CONTROLLER_LEVEL') > 1) {// 控制器层次
-                    if (is_dir(realpath(APP_PATH . MODULE_NAME) . DIRECTORY_SEPARATOR . 'Controller' . DIRECTORY_SEPARATOR . ucfirst(implode(DIRECTORY_SEPARATOR, array_slice($paths, 0, C('CONTROLLER_LEVEL') - 1))))) {
-                        $controller = implode('/', array_slice($paths, 0, C('CONTROLLER_LEVEL')));
-                        $paths = array_slice($paths, C('CONTROLLER_LEVEL'));
-                    } else {
-                        $controller = implode('/', array_slice($paths, 0, C('CONTROLLER_LEVEL') - 1));
-                        $paths = array_slice($paths, C('CONTROLLER_LEVEL') - 1);
-                    }
+                    $controller_level_array = self::getControllerLevel($paths);
+                    $controller = $controller_level_array['controller'];
+                    $paths = $controller_level_array['paths'];;
                 } else {
                     $controller = array_shift($paths);
                 }
@@ -408,6 +405,27 @@ class Dispatcher
             }
         }
         return strip_tags(ucfirst($module));
+    }
+
+    /**
+     * 控制器分组后相关参数重组
+     * @param $paths
+     * @return array
+     */
+    private static function getControllerLevel($paths)
+    {
+        $dir_key = 1;
+        foreach ($paths as $key => $item) {
+            if (is_dir(realpath(APP_PATH . MODULE_NAME) . DIRECTORY_SEPARATOR . 'Controller' . DIRECTORY_SEPARATOR . ucfirst(implode(DIRECTORY_SEPARATOR, array_slice($paths, 0, $key + 1))))) {
+                $dir_key++;
+            }
+        }
+        $controller = implode('/', array_slice($paths, 0, $dir_key));
+        $paths = array_slice($paths, $dir_key);
+        return [
+            'controller' => $controller,
+            'paths' => $paths,
+        ];
     }
 
 }
