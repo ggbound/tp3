@@ -276,8 +276,13 @@ class Dispatcher
                 // PATH_INFO检测标签位
                 Hook::listen('path_info');
                 if (C('CONTROLLER_LEVEL') > 1) {// 控制器层次
-                    $controller = implode('/', array_slice($paths, 0, C('CONTROLLER_LEVEL')));
-                    $paths = array_slice($paths, C('CONTROLLER_LEVEL'));
+                    if (is_dir(realpath(APP_PATH . MODULE_NAME) . DIRECTORY_SEPARATOR . 'Controller' . DIRECTORY_SEPARATOR . ucfirst(implode(DIRECTORY_SEPARATOR, array_slice($paths, 0, C('CONTROLLER_LEVEL') - 1))))) {
+                        $controller = implode('/', array_slice($paths, 0, C('CONTROLLER_LEVEL')));
+                        $paths = array_slice($paths, C('CONTROLLER_LEVEL'));
+                    } else {
+                        $controller = implode('/', array_slice($paths, 0, C('CONTROLLER_LEVEL') - 1));
+                        $paths = array_slice($paths, C('CONTROLLER_LEVEL') - 1);
+                    }
                 } else {
                     $controller = array_shift($paths);
                 }
