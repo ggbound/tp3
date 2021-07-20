@@ -13,6 +13,6 @@
     ],
     "require": {
         "php": ">=5.5.0",
-        "ggbound/think-installer": "^1.2"
+        "ggbound/think-installer": "^1.2.1"
     }
 }
